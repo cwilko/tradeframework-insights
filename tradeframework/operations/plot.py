@@ -17,7 +17,7 @@ from IPython.display import display
 
 def plotAsset(asset, options=None):
     chart = OHLCChart(options)
-    chart.addSeries(asset.getName(), asset.values.reset_index().values.tolist())
+    chart.addSeries(asset.getName(), asset.values)
     display(chart.getChart())
     return chart
 
@@ -31,7 +31,7 @@ def plotWeightedUnderlying(derivative, underlyingName, options=None):
     asset = underlying.values.mul(derivative.weights[underlyingName]["bar"].values, axis=0)
     asset.replace(0, np.nan, inplace=True)
     chart = OHLCChart(options)
-    chart.addSeries(underlyingName, asset.reset_index().values.tolist())
+    chart.addSeries(underlyingName, asset)
     display(chart.getChart())
     return chart
 
