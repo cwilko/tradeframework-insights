@@ -7,7 +7,6 @@ import pyfolio
 
 
 class PerfSummary(InsightGenerator):
-
     def __init__(self, name, opts):
         InsightGenerator.__init__(self, name, opts)
 
@@ -19,7 +18,6 @@ class PerfSummary(InsightGenerator):
 
 
 class Merton(InsightGenerator):
-
     def __init__(self, name, opts):
         InsightGenerator.__init__(self, name, opts)
 
@@ -33,7 +31,6 @@ class Merton(InsightGenerator):
 
 
 class PyfolioSummary(InsightGenerator):
-
     def __init__(self, name, opts):
         InsightGenerator.__init__(self, name, opts)
 
@@ -42,12 +39,13 @@ class PyfolioSummary(InsightGenerator):
 
     def getInsight(self, derivative, display=True):
         # Show generic statistics
-        warnings.filterwarnings('ignore')
-        pyfolio.create_returns_tear_sheet(utils.getPeriodReturns(derivative.returns)["period"])
+        warnings.filterwarnings("ignore")
+        pyfolio.create_returns_tear_sheet(
+            utils.getPeriodReturns(derivative.returns)["period"]
+        )
 
 
 class StatisticalTests(InsightGenerator):
-
     def __init__(self, name, opts):
         InsightGenerator.__init__(self, name, opts)
 
@@ -56,9 +54,19 @@ class StatisticalTests(InsightGenerator):
 
         self.opts.setdefault("level", 0.95)
         self.opts.setdefault("iterations", 1000)
-        self.opts.setdefault("txCost", 0)
 
     def getInsight(self, derivative, display=True):
-        sim_results = stats.bootstrap(ts=self.opts["baseline"].values, iterations=self.opts["iterations"], txCost=self.opts["txCost"])
+        sim_results = stats.bootstrap(
+            ts=utils.getTradedReturns(
+                utils.getPeriodReturns(self.opts["baseline"].returns)
+            )["period"],
+            iterations=self.opts["iterations"],
+        )
         if display:
-            stats.statistical_tests(utils.getPeriodReturns(derivative.returns)["period"], sim_results, self.opts["level"])
+            stats.statistical_tests(
+                utils.getTradedReturns(utils.getPeriodReturns(derivative.returns))[
+                    "period"
+                ],
+                sim_results,
+                self.opts["level"],
+            )
