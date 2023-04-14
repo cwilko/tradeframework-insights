@@ -1,13 +1,6 @@
-from .analysis import (
-    AnalysisPlot,
-    AutoCorrelationPlot,
-    MACFPlot,
-    MarkovRegimeFit,
-    StationarityTest,
-    WhiteNoiseTest,
-    NormalityTest,
-    CorrelationMatrix,
-)
+from .timeseries import TimeSeriesPlot, AutoCorrelationPlot, MACFPlot, MarkovRegimeFit
+from .analysis import StationarityTest, WhiteNoiseTest, NormalityTest
+from .correlation import CorrelationMap, CorrelationMatrix, CorrelationPairPlot
 from .basicPlot import BasicPlot
 from .OHLCPlot import OHLCPlot, OHLCPlotByName, OHLCPlotWeightedUnderlying
 from .tradeInfo import TradeInfo, UnderlyingAllocations
@@ -16,4 +9,4 @@ from .predictions import Predictions
 from .returns import RollingReturns, ReturnsPlot
 from .prices import RollingPrice
 from .performance import PerfSummary, Merton, PyfolioSummary, StatisticalTests
-from .models import ARIMAFit
+from .models import ARIMAFit, PredictionPlot, PredictionMetrics
