@@ -9,4 +9,5 @@ from .predictions import Predictions
 from .returns import RollingReturns, ReturnsPlot
 from .prices import RollingPrice
 from .performance import PerfSummary, Merton, PyfolioSummary, StatisticalTests
-from .models import ARIMAFit, PredictionPlot, PredictionMetrics
+from .models import ARIMAFit
+from .metrics import PredictionPlot, PredictionMetrics, ConfusionMatrix

@@ -5,15 +5,24 @@ from IPython.display import display as displayResult
 import warnings
 import pyfolio
 
+# NOTE: Most of the following should technically be provided with log returns, but given a) the close approximation when
+# small periods are used, and b) the more meaningful values produced, we keep these using simple returns
+
 
 class PerfSummary(InsightGenerator):
     def __init__(self, name, opts):
         InsightGenerator.__init__(self, name, opts)
 
+        self.opts.setdefault("baseline", None)
+
     def getInsight(self, derivative, display=True):
         returns = utils.getPeriodReturns(derivative.returns)["period"]
+        baseline = self.opts["baseline"]
+        if baseline is not None:
+            baseline = utils.getPeriodLogReturns(baseline.returns)["period"]
+
         if display:
-            stats.statistics(ts=returns)
+            stats.statistics(ts=returns, baseline=baseline)
         return stats.getStats(returns)
 
 
